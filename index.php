@@ -3,12 +3,24 @@ require_once('db.php');
 // Start or resume the session
 session_start();
 
+$query = 'SELECT * FROM account';
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+$stmt = $conn->prepare($query); 
+// EXECUTING THE QUERY 
+$stmt->execute(); 
+
+$r = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+// FETCHING DATA FROM DATABASE 
+$result = $stmt->fetchAll(); 
+
+
 // Check if the user is already logged in
 if (!isset($_SESSION['user'])) {
     // Redirect to the login page (or any other page as needed)
     header("Location: loginpage.php");
     exit();
 }
+
 ?>
 <!DOCTYPE html> <!-- saved from url=(0049)https://ib.fio.cz/ib/fio/page/nastenka-bankovni?2 -->
 <html xmlns="https://www.w3.org/1999/xhtml">
@@ -766,49 +778,9 @@ if (!isset($_SESSION['user'])) {
                     </div>
                     <div>
                         <div class="row" style="min-height: 100px;">
+                            <!-- account info -->
                             <div class="col-md-12">
-                                <div class="indexZustatkyBox">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="row balanceRow">
-                                                <div class="col-sm-6 balanceLabel"> Disponibilní zůstatek: </div>
-                                                <div class="col-sm-6 balanceSum availableBalance"> 3&nbsp;540&nbsp;399,12&nbsp;CZK </div>
-                                            </div>
-                                            <div class="row balanceRow">
-                                                <div class="col-sm-6 balanceLabel"> Běžný zůstatek: </div>
-                                                <div class="col-sm-6 balanceSum"> 151&nbsp;149,42&nbsp;CZK </div>
-                                            </div>
-                                            <div>
-                                                <div class="row balanceRow">
-                                                    <div class="col-sm-6 balanceLabel"> Blokovaná částka: </div>
-                                                    <div class="col-sm-6 balanceSum"> 251,30&nbsp;CZK </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4" style="border-left: 1px solid rgb(238, 238, 238); border-right: 1px solid rgb(238, 238, 238);">
-                                            <div class="row">
-                                                <div class="col-sm-4 balanceLabel"> Číslo účtu: </div>
-                                                <div class="col-sm-8 balanceSum"> <span>2819003243 / 2010</span> <!-- account number -->
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4 balanceLabel"> IBAN: </div>
-                                                <div class="col-sm-8 balanceSum"> <span>CZ58 2010 0000 0028 1900 3243</span> </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4 balanceLabel"> BIC/SWIFT: </div>
-                                                <div class="col-sm-8 balanceSum"> <span>FIOBCZPPXXX</span> </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div>
-                                                <div class="AdDashboardHeader">Spočítejte si hypotéku</div>
-                                                <div class="AdDashboardText pull-left" style="width: 80%"><a target="_blank" href="https://ib.fio.cz/ib/fio/page/nastenka-bankovni?2-1.-zustatky-reklama-container-linkText"> <span>Pořiďte si hypotéku bez poplatků. Spočítejte si svoji splátku a snižte si její výši s Hypospořicím kontem.</span></a></div>
-                                                <div class="AdSmallImg pull-right"> <a target="_blank" href="https://ib.fio.cz/ib/fio/page/nastenka-bankovni?2-1.-zustatky-reklama-container-linkObrazek"> <img src="./ib-fio_files/66x60_Fio_hypoteka_dum.png"> </a> </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php include("accountInfo.php"); ?>
                             </div>
                         </div>
                     </div>
