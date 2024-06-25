@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# If the requested filename is not a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+# If the requested filename.php exists
+RewriteCond %{REQUEST_FILENAME}\.php -f
+# Rewrite to add .php to the URL
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+# Allow execution of PHP files
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
